@@ -7,8 +7,10 @@ function Web3Providers () {
 
 Web3Providers.prototype.addProvider = function (type, obj) {
   if (type === 'INTERNAL') {
-    var web3 = init.loadWeb3()
-    this.addWeb3(type, web3)
+    init.loadWeb3(function (err, web3) {
+      if (err) return console.error(err)
+      this.addWeb3(type, web3)
+    })
   } else if (type === 'EXTERNAL') {
     init.extendWeb3(obj)
     this.addWeb3(type, obj)
